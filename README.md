@@ -78,4 +78,3 @@ Acoustic indices are single-value metrics that provide a broad, rapid assessment
 - Mid Frequency Cover (MFC): Measures the proportion of the soundscape with a strong mid-frequency signal, which is typically a signature of birds and insects.
 
 - Clustered Level of Sound (CLS): Assesses the balance of energy among different frequency clusters. A high CLS indicates a diverse set of sound sources.<img width="1048" height="417" alt="Screenshot 2025-09-13 at 5 30 12 AM" src="https://github.com/user-attachments/assets/c96643b9-2f72-4597-ab42-551d13cc288d" />
-
