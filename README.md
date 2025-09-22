@@ -2,45 +2,54 @@
 A full pipeline from audio data to acoustic graphs
 
 
-## Continuous Ecological Monitoring using bioacoustics sensing in Sanjay Van
+## Continuous Ecological Monitoring using Bioacoustics Sensing
 
-This project is an initiative for continuous ecological monitoring in Sanjay Van, Delhi, using bioacoustics sensing. The core idea is to deploy automated acoustic recorders in the forest to capture the soundscape over long periods. By analyzing this rich sound data, we can gain insights into biodiversity, ecosystem health, and the daily and seasonal behaviors of species without the need for constant on-site human presence. This project was conducted by the CoRE stack team at IIT Delhi in August 2025.
+This project provides a generic bioacoustics monitoring pipeline for continuous ecological monitoring. The goal is to transform raw audio data into species-level and soundscape-level insights. The library allows researchers to deploy automated acoustic recorders, process the resulting recordings, and generate ecological metrics and visualizations.
+
+Instead of being tied to a specific forest, site, or date, this pipeline is parameterized and can be used in any location for any monitoring campaign.
+
 
 ### Inputs
 The project's primary data inputs are raw audio recordings and location-specific metadata.
 
+#### Raw Audio Recordings
+- WAV/FLAC/MP3 files containing soundscape data.
+#### Metadata File 
+- A CSV/JSON with site-specific information such as:
+  - site_id (unique identifier)
+  - latitude, longitude (or region identifier)
+  - habitat_description (optional)
+  - recorder_model, sample_rate, duty_cycle (optional, for reproducibility)
+  - start_date, end_date of deployment
+
+
 ### Acoustic Data Collection
 
-Recording Device: We used Song Meter Micro 2 devices to capture high-quality audio.
-
-Duty Cycle: The devices were programmed with a 2:4 duty cycle, meaning they recorded audio for 2 minutes and then entered a "sleep" mode for 4 minutes to conserve battery life. This continuous sampling was carried out over a two-week period, from July 20 to August 3, 2025.
-
-Site Selection: Four distinct monitoring spots were selected within Sanjay Van. The sites were chosen after stratifying the forest into four different regions using spectral data, specifically NDVI time series, to ensure we covered a variety of habitat types.
+The following parameters are configurable by the user and should be included in the metadata file or CLI arguments:
+1. Recording Device Model (e.g., Song Meter Micro, Audiomoth, etc.)
+2. Duty Cycle (recording schedule, e.g., 2 minutes on / 4 minutes off)
+3. Deployment Duration (start and end date)
+4. Number of Sites and Site Selection Criteria (NDVI stratification, habitat zones, random sampling, etc.)
 
 ### Monitoring Spot Characteristics
 
-Each of the four selected sites had unique characteristics that would influence the local soundscape:
-
-Spot 1: A dense area with diverse deciduous trees, located close to a stream.
-
-Spot 2: Positioned at a higher elevation, approximately 100 meters away from a waterbody.
-
-Spot 3: A region dominated by acacia trees and with a noticeable presence of lantana and crickets.
-
-Spot 4: A site located near a new growth area with many young trees.
+Each monitoring spot should have associated attributes (e.g., vegetation density, proximity to water, canopy cover) to allow downstream correlation with acoustic metrics. These are provided by the user as part of the metadata input.
 
 ### Outputs and Analysis
-The project outputs are a series of analyses and data visualizations that help interpret the soundscape data. The analysis is divided into two main categories: species-level analysis and soundscape-level analysis using acoustic indices.
+The pipeline produces two major categories of outputs:
 
 ### Species-Level Analysis
 
-- BirdNet Identifications: The audio files are processed using the BirdNet model to automatically identify bird species. The reliability of these identifications is assessed using a confusion matrix based on an eBird species list for the region. The analysis categorizes species into:
+BirdNet Identifications
+- Input: Raw audio files
+- Process: Passes each file through the BirdNet model to obtain probabilistic species identifications.
+- Output: CSV with columns: [timestamp, site_id, species, confidence].
 
-- Confirmed Present (True Positives): Species found on both the eBird list and BirdNet detections.
-
-- Confirmed Absent/Missed (False Negatives): Species on the eBird list but not detected by BirdNet.
-
-- Implausible Errors (False Positives): Species found by BirdNet but not on the eBird list and considered impossible for the region.
+Reliability assessment is done by comparing against a reference species list (e.g., eBird regional checklist provided by user):
+- Confirmed Present (True Positives): Species found on both the reference list and detections.
+- Confirmed Absent / Missed (False Negatives): On list but not detected.
+Implausible Errors (False Positives): Detected but not on list (flagged for review).
+- Implausible Errors (False Positives): Detected but not on list (flagged for review).
 
 - Hourly Activity Heat Maps:
 
