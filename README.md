@@ -40,6 +40,22 @@ The pipeline produces two major categories of outputs:
 
 ### Species-Level Analysis
 
+Data Filtering and Confidence Categorization
+
+Before visualization and summary analysis, detections are filtered to retain only reliable observations (confidence ≥ 0.3).
+Each detection is then categorized into one of three confidence ranges for clearer interpretation of model certainty:
+
+Confidence ≥ 0.5 — High-confidence detections
+
+0.4 ≤ Confidence < 0.5 — Moderate-confidence detections
+
+0.3 ≤ Confidence < 0.4 — Lower-confidence but still plausible detections
+
+Subsequent visualizations (e.g., cumulative detection charts) use these categories to display detection frequency distributions per species.
+
+Additionally, to focus on consistently observed species, the dataset is further filtered to retain only those with ≥10 cumulative detections across all confidence levels.
+This ensures that rare or noise-level detections do not bias downstream summaries and visualizations.
+
 BirdNet Identifications
 - Input: Raw audio files
 - Process: Passes each file through the BirdNet model to obtain probabilistic species identifications.
