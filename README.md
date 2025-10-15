@@ -1,6 +1,11 @@
 # Pipeline
 A full pipeline from audio data to acoustic graphs
 
+## How to use
+- In both Birdnet_Predictions and calculate_indices, specify the database paths in the DATABASE_PATH list.
+- In the same scripts, set the output CSV paths in the OUTPUTS list.
+- In graphs_analysis, enter the paths for the CSVs created by Birdnet_Predictions into the OUTPUTS list.
+- In graphs_analysis, enter the paths for the CSVs from calculate_indices into the INDEX_FILES list.
 
 ## Continuous Ecological Monitoring using Bioacoustics Sensing
 
